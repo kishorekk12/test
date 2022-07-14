@@ -5,13 +5,13 @@ pipeline {
       parallel {
         stage('code checkout') {
           steps {
-            echo 'code checkout from SCM'
+            git 'https://github.com/kishorekk12/pipelineTest.git'
           }
         }
 
         stage('Test') {
           steps {
-            echo 'Test execution'
+           bat 'mvn install'
           }
         }
 
@@ -20,7 +20,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        echo 'Deploy'
+        deploy adapters: [tomcat8(credentialsId: '0547a943-3f60-4310-915f-bcb0ffe0b38c', path: '', url: 'http://localhost:8082/')], contextPath: null, war: '*/*.war'
       }
     }
 
